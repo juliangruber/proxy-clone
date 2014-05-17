@@ -17,5 +17,13 @@ describe('clone(obj)', function(){
     deepEqual(cloned, { foo: 'bar', bar: 'baz' });
     deepEqual(obj, { foo: 'bar' });
   });
+
+  it('should override a value', function(){
+    var obj = { foo: 'bar' };
+    var cloned = clone(obj);
+    cloned.foo = 'baz';
+    deepEqual(cloned, { foo: 'baz' });
+    deepEqual(obj, { foo: 'bar' });
+  });
 });
 
