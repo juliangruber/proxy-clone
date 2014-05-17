@@ -28,7 +28,7 @@ function proxyClone(obj){
   var override = {};
   var deleted = {};
 
-  var proxy = Proxy.create({
+  return Proxy.create({
     getOwnPropertyDescriptor: function(name){
       var desc;
       if (!deleted[name]) {
@@ -110,8 +110,6 @@ function proxyClone(obj){
       return keys;
     }
   }, Object.prototype);
-
-  return proxy;
 };
 
 /**
