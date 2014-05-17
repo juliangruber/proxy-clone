@@ -30,6 +30,7 @@ describe('clone(obj)', function(){
     var obj = { foo: 'bar' };
     var cloned = clone(obj);
     delete cloned.foo;
+    delete cloned.unknown;
     deepEqual(cloned, {});
     deepEqual(obj, { foo: 'bar' });
   });
