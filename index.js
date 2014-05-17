@@ -46,11 +46,11 @@ function proxyClone(obj){
           var value;
           if (!deleted[name]) value = override[name] || obj[name];
           if (isObject(value)) value = proxyClone(value);
-          debug('get %s = %s', name, value);
+          debug('get %s = %j', name, value);
           return value;
         },
         set: function(val){
-          debug('set %s = %s', name, val);
+          debug('set %s = %j', name, val);
           delete deleted[name];
           return override[name] = val;
         }
@@ -96,7 +96,7 @@ function proxyClone(obj){
     set: function(receiver, name, val) {
       delete deleted[name];
       override[name] = val;
-      debug('set %s = %s', name, val);
+      debug('set %s = %j', name, val);
       return true;
     },
     enumerate: function(){
