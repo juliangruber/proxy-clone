@@ -1,5 +1,5 @@
 var clone = require('./');
-var assert = require('assert');
+var assert = require('assert/');
 var deepEqual = assert.deepEqual;
 
 describe('clone(obj)', function(){
