@@ -51,6 +51,12 @@ describe('clone(obj)', function(){
       deepEqual(cloned, { foo: { bar: 'beep' } });
       deepEqual(obj, { foo: { bar: 'baz' } });
     });
+
+    it('should not clone nulls', function(){
+      var obj = { foo: null };
+      var cloned = clone(obj);
+      deepEqual(cloned, { foo: null });
+    });
   });
 
   describe('delete', function(){

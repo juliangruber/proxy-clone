@@ -45,7 +45,7 @@ function proxyClone(obj){
         get: function(){
           var value;
           if (!deleted[name]) value = override[name] || obj[name];
-          if ('object' == typeof value) value = proxyClone(value);
+          if (isObject(value)) value = proxyClone(value);
           debug('get %s = %s', name, value);
           return value;
         },
@@ -87,7 +87,7 @@ function proxyClone(obj){
       var value;
       if (!deleted[name]) value = override[name] || obj[name];
       debug('get %s = %j', name, value);
-      if ('object' == typeof value) {
+      if (isObject(value)) {
         value = proxyClone(value);
         override[name] = value;
       }
@@ -118,5 +118,13 @@ function proxyClone(obj){
 
 function unique(el, i, arr){
   return arr.indexOf(el) == i;
+}
+
+/**
+ * Object check.
+ */
+
+function isObject(obj){
+  return 'object' == typeof obj && obj != null;
 }
 
