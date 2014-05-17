@@ -20,10 +20,15 @@ var hasOwnProperty = ({}).hasOwnProperty;
 
 module.exports = function(obj){
   var override = {};
+  var deleted = {};
+
   var proxy = Proxy.create({
     getOwnPropertyDescriptor: function(name){
-      var desc = Object.getOwnPropertyDescriptor(override, name)
-        || Object.getOwnPropertyDescriptor(obj, name);
+      var desc;
+      if (!deleted[name]) {
+        desc = Object.getOwnPropertyDescriptor(override, name)
+          || Object.getOwnPropertyDescriptor(obj, name);
+      }
       if (desc) desc.configurable = true;
       debug('getOwnPropertyDescriptor %s = %s', name, desc);
       return desc;
@@ -32,9 +37,14 @@ module.exports = function(obj){
       debug('getPropertyDescriptor %s', name);
       return {
         get: function(){
-          return override[name] || obj[name];
+          var value;
+          if (!deleted[name]) value = override[name] || obj[name];
+          debug('get %s = %s', name, value);
+          return value;
         },
         set: function(val){
+          debug('set %s = %s', name, val);
+          delete deleted[name];
           return override[name] = val;
         }
       }
@@ -42,27 +52,38 @@ module.exports = function(obj){
     getOwnPropertyNames: function(){
       var names = Object.getOwnPropertyNames(obj)
         .concat(Object.getOwnPropertyNames(override))
-        .filter(unique);
+        .filter(unique)
+        .filter(function(key){
+          return !deleted[key];
+        });
       debug('getOwnPropertyNames %j', names);
       return names;
     },
+    delete: function(name){
+      debug('delete %s', name);
+      deleted[name] = true;
+      delete override[name];
+    },
     has: function(name){
-      var has = name in override || name in obj;
+      var has = !deleted[name] && (name in override || name in obj);
       debug('has %s = %s', name, has);
       return has;
     },
     hasOwn: function(name){
-      var has = hasOwnProperty.call(override, name)
-        || hasOwnProperty.call(obj, name);
+      var has = !deleted[name]
+        && (hasOwnProperty.call(override, name)
+        || hasOwnProperty.call(obj, name));
       debug('hasOwn %s = %s', name, has);
       return has;
     },
     get: function(receiver, name){
-      var value = override[name] || obj[name];
+      var value;
+      if (!deleted[name]) value = override[name] || obj[name];
       debug('get %s = %s', name, value);
       return value;
     },
     set: function(receiver, name, val) {
+      delete deleted[name];
       override[name] = val;
       debug('set %s = %s', name, val);
       return true;
@@ -70,8 +91,9 @@ module.exports = function(obj){
     enumerate: function(){
       var keys = Object.keys(obj)
         .concat(Object.keys(override))
-        .filter(function(key, i, arr){
-          return arr.indexOf(key) == i;
+        .filter(unique)
+        .filter(function(key){
+          return !deleted[key];
         });
       debug('enumerate %j', keys);
       return keys;

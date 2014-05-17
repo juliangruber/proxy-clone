@@ -25,5 +25,13 @@ describe('clone(obj)', function(){
     deepEqual(cloned, { foo: 'baz' });
     deepEqual(obj, { foo: 'bar' });
   });
+
+  it('should delete a value', function(){
+    var obj = { foo: 'bar' };
+    var cloned = clone(obj);
+    delete cloned.foo;
+    deepEqual(cloned, {});
+    deepEqual(obj, { foo: 'bar' });
+  });
 });
 
