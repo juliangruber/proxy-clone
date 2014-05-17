@@ -35,6 +35,14 @@ describe('clone(obj)', function(){
       deepEqual(cloned, { foo: 'baz' });
       deepEqual(obj, { foo: 'bar' });
     });
+
+    it('should add a nested value', function(){
+      var obj = { foo: { bar: 'baz' } };
+      var cloned = clone(obj);
+      cloned.foo.beep = 'boop';
+      deepEqual(cloned, { foo: { bar: 'baz', beep: 'boop' } });
+      deepEqual(obj, { foo: { bar: 'baz' } });
+    });
   });
 
   describe('delete', function(){
