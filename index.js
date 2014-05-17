@@ -6,6 +6,12 @@
 var debug = require('debug')('proxy-clone');
 
 /**
+ * Expose `proxyClone`.
+ */
+
+module.exports = proxyClone;
+
+/**
  * hasOwnProperty reference.
  */
 
@@ -18,7 +24,7 @@ var hasOwnProperty = ({}).hasOwnProperty;
  * @return {Object}
  */
 
-module.exports = function(obj){
+function proxyClone(obj){
   var override = {};
   var deleted = {};
 
@@ -30,7 +36,7 @@ module.exports = function(obj){
           || Object.getOwnPropertyDescriptor(obj, name);
       }
       if (desc) desc.configurable = true;
-      debug('getOwnPropertyDescriptor %s = %s', name, desc);
+      debug('getOwnPropertyDescriptor %s = %j', name, desc);
       return desc;
     },
     getPropertyDescriptor: function(name){
@@ -79,7 +85,11 @@ module.exports = function(obj){
     get: function(receiver, name){
       var value;
       if (!deleted[name]) value = override[name] || obj[name];
-      debug('get %s = %s', name, value);
+      debug('get %s = %j', name, value);
+      if ('object' == typeof value) {
+        value = proxyClone(value);
+        override[name] = value;
+      }
       return value;
     },
     set: function(receiver, name, val) {
