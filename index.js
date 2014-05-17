@@ -28,6 +28,19 @@ function proxyClone(obj){
   var override = {};
   var deleted = {};
 
+  function get(name){
+    var value;
+    if (!deleted[name]) value = override[name] || obj[name];
+    if (isObject(value)) {
+      value = proxyClone(value);
+      override[name] = value;
+    }
+    if ('function' == typeof value) {
+      value = value.bind(obj);
+    }
+    return value;
+  }
+
   return Proxy.create({
     getOwnPropertyDescriptor: function(name){
       var desc;
@@ -43,9 +56,7 @@ function proxyClone(obj){
       debug('getPropertyDescriptor %s', name);
       return {
         get: function(){
-          var value;
-          if (!deleted[name]) value = override[name] || obj[name];
-          if (isObject(value)) value = proxyClone(value);
+          var value = get(name);
           debug('get %s = %j', name, value);
           return value;
         },
@@ -84,13 +95,8 @@ function proxyClone(obj){
       return has;
     },
     get: function(receiver, name){
-      var value;
-      if (!deleted[name]) value = override[name] || obj[name];
+      var value = get(name);
       debug('get %s = %j', name, value);
-      if (isObject(value)) {
-        value = proxyClone(value);
-        override[name] = value;
-      }
       return value;
     },
     set: function(receiver, name, val) {

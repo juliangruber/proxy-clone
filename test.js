@@ -79,5 +79,14 @@ describe('clone(obj)', function(){
     });
   });
 
+  describe('get', function(){
+    it('should bind functions', function(){
+      function Obj(){}
+      Obj.prototype.fn = function(){ assert(this instanceof Obj) }
+      var obj = new Obj;
+      var cloned = clone(obj);
+      cloned.fn();
+    });
+  });
 });
 
