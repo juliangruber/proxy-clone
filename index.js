@@ -45,6 +45,7 @@ function proxyClone(obj){
         get: function(){
           var value;
           if (!deleted[name]) value = override[name] || obj[name];
+          if ('object' == typeof value) value = proxyClone(value);
           debug('get %s = %s', name, value);
           return value;
         },
