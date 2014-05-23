@@ -87,6 +87,15 @@ describe('clone(obj)', function(){
       var cloned = clone(obj);
       cloned.fn();
     });
+
+    it('should inherit', function(){
+      var d = new Date;
+      var c = clone(d);
+      deepEqual(
+        d.toString(),
+        c.toString()
+      );
+    });
   });
 });
 

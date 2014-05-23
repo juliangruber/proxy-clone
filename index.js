@@ -25,8 +25,8 @@ var hasOwnProperty = ({}).hasOwnProperty;
  */
 
 function proxyClone(obj){
-  var override = {};
-  var deleted = {};
+  var override = Object.create(null);
+  var deleted = Object.create(null);
 
   function get(name){
     var value;
