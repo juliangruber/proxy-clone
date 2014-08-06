@@ -1,7 +1,7 @@
 
 # proxy-clone [![build status](https://secure.travis-ci.org/juliangruber/proxy-clone.svg)](http://travis-ci.org/juliangruber/proxy-clone)
 
-  Harmony proxies based deep clone, that's way more efficient than the traditional clone implementations.
+  Harmony proxies based deep clone, that's way more efficient than the traditional clone implementations, when dealing with big objects.
 
 ## Stability
 
