@@ -1,15 +1,12 @@
 {
   "name": "proxy-clone",
   "version": "0.1.1",
-  "repository": "segmentio/proxy-clone",
+  "repository": "juliangruber/proxy-clone",
   "dependencies": {
     "debug": "~0.8.1"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
     "assert": "~1.1.1"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
   }
 }

@@ -50,6 +50,12 @@ $ npm install proxy-clone
   you read from the proxy, it first checks for overrides, otherwise returns
   the original value from the object.
 
+
+## Kudos
+
+  Thanks to @segmentio for letting me publish this private module that I developed while working for them.
+
+
 ## License
 
   MIT
