@@ -4,6 +4,10 @@
 
   Harmony proxies based deep clone, that's way more efficient than the traditional clone implementations.
 
+## Stability
+
+  This module makes certain assumptions about what you do with the cloned object, and I only tested it with the operations one project required. If something behaves odly, open an issue and I'll look into it.
+
 ## Example
 
   The api is what you'd expect:
