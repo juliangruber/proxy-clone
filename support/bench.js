@@ -3,25 +3,31 @@ var proxyClone = require('..');
 
 var suite = new Benchmark.Suite;
 var seg = '"foo":{"bar":"baz"},"beep":["boop", 1]'
-var small = JSON.parse('{' + seg + '}');
-var big = JSON.parse('{' + Array(100).join(' ').split(' ').map(function(){ return seg }) + '}');
 
-suite.add('proxy-clone small', function(){
- var obj = proxyClone(small);
-});
-suite.add('proxy-clone big', function(){
-  var obj = proxyClone(big);
-});
+var input = {
+  smal: JSON.parse('{' + seg + '}'),
+  medium: JSON.parse('{' + Array(100).join(' ').split(' ').map(function(){ return seg }) + '}'),
+  big: JSON.parse('{' + Array(1000).join(' ').split(' ').map(function(){ return seg }) + '}'),
+  gigantic: JSON.parse('{' + Array(10000).join(' ').split(' ').map(function(){ return seg }) + '}')
+};
 
-function jsonClone(o){
-  return JSON.parse(JSON.stringify(o));
+function use(o){
+  var foo = o.foo;
+  o.bar = foo;
 }
 
-suite.add('JSON small', function(){
- var obj = jsonClone(small);
-});
-suite.add('JSON big', function(){
- var obj = jsonClone(big);
+function test(name, fn){
+  Object.keys(input).forEach(function(n){
+    suite.add(name + ' ' + n, function(){
+     var obj = fn(input[n]);
+     use(obj);
+    });
+  });
+}
+
+test('proxy-clone', proxyClone);
+test('JSON', function(o){
+  return JSON.parse(JSON.stringify(o));
 });
 
 suite.on('cycle', function(e){
