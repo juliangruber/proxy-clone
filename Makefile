@@ -4,5 +4,8 @@ test:
 		--harmony \
 		--reporter spec
 
-.PHONY: test
+bench:
+	@node --harmony support/bench.js
+
+.PHONY: test bench
 
