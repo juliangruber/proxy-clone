@@ -2,14 +2,23 @@ var Benchmark = require('benchmark');
 var proxyClone = require('..');
 
 var suite = new Benchmark.Suite;
-var seg = '"foo":{"bar":"baz"},"beep":["boop", 1]'
+var seg = '"$foo":{"bar":"baz"},"$beep":["boop", 1]'
 
 var input = {
-  smal: JSON.parse('{' + seg + '}'),
-  medium: JSON.parse('{' + Array(100).join(' ').split(' ').map(function(){ return seg }) + '}'),
-  big: JSON.parse('{' + Array(1000).join(' ').split(' ').map(function(){ return seg }) + '}'),
-  gigantic: JSON.parse('{' + Array(10000).join(' ').split(' ').map(function(){ return seg }) + '}')
+  small: gen(10),
+  medium: gen(100),
+  big: gen(1000),
+  gigantic: gen(10000)
 };
+
+function gen(size){
+  var o = {};
+  for (var i = 0; i < size; i++) {
+    o[i + 'foo'] = { bar: 'baz' };
+    o[i + 'beep'] = ['boop', 1];
+  }
+  return o;
+}
 
 function use(o){
   var foo = o.foo;
@@ -25,10 +34,12 @@ function test(name, fn){
   });
 }
 
+function jsonClone(obj){
+  return JSON.parse(JSON.stringify(obj));
+}
+
 test('proxy-clone', proxyClone);
-test('JSON', function(o){
-  return JSON.parse(JSON.stringify(o));
-});
+test('JSON', jsonClone);
 
 suite.on('cycle', function(e){
   console.log(String(e.target));
