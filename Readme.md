@@ -7,6 +7,27 @@
 
   This module makes certain assumptions about what you do with the cloned object, and I only tested it with the operations one project required. If something behaves odly, open an issue and I'll look into it.
 
+## Performance
+
+  Depending on the object size, `proxy-clone` can be wayyyyy faster than naive JSON clone or the [clone](https://npmjs.org/clone) module from npm.
+
+```
+JSON small x 40,755 ops/sec ±13.60% (65 runs sampled)
+JSON medium x 6,318 ops/sec ±3.52% (84 runs sampled)
+JSON big x 526 ops/sec ±9.41% (75 runs sampled)
+JSON gigantic x 27.20 ops/sec ±15.18% (40 runs sampled)
+
+clone small x 13,755 ops/sec ±12.13% (66 runs sampled)
+clone medium x 1,084 ops/sec ±12.39% (59 runs sampled)
+clone big x 37.76 ops/sec ±12.18% (40 runs sampled)
+clone gigantic x 0.68 ops/sec ±8.74% (6 runs sampled)
+
+proxy-clone small x 298,286 ops/sec ±2.99% (79 runs sampled)
+proxy-clone medium x 269,721 ops/sec ±5.39% (79 runs sampled)
+proxy-clone big x 255,918 ops/sec ±7.33% (72 runs sampled)
+proxy-clone gigantic x 259,387 ops/sec ±4.84% (69 runs sampled)
+```
+
 ## Example
 
   The api is what you'd expect:
