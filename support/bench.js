@@ -1,5 +1,6 @@
 var Benchmark = require('benchmark');
 var proxyClone = require('..');
+var deepClone = require('clone');
 
 var suite = new Benchmark.Suite;
 var seg = '"$foo":{"bar":"baz"},"$beep":["boop", 1]'
@@ -38,8 +39,9 @@ function jsonClone(obj){
   return JSON.parse(JSON.stringify(obj));
 }
 
-test('proxy-clone', proxyClone);
 test('JSON', jsonClone);
+test('clone', deepClone);
+test('proxy-clone', proxyClone);
 
 suite.on('cycle', function(e){
   console.log(String(e.target));
