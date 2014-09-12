@@ -9,7 +9,7 @@
 
 ## Performance
 
-  Depending on the object size, `proxy-clone` can be wayyyyy faster than naive JSON clone or the [clone](https://npmjs.org/clone) module from npm.
+  Depending on the object size, `proxy-clone` can be wayyyyy faster than naive JSON clone or the [clone](https://npmjs.org/clone) module from npm. The most important thing to note is that clone speed is constant, however using the cloned object is slightly slower.
 
 ```
 JSON small x 40,755 ops/sec ±13.60% (65 runs sampled)
