@@ -72,7 +72,9 @@ $ npm install proxy-clone
   [Proxy](http://wiki.ecmascript.org/doku.php?id=harmony:proxies). When you
   change a property on the proxy, it adds it to an internal change log. When
   you read from the proxy, it first checks for overrides, otherwise returns
-  the original value from the object.
+  the value from the original object. This also means that any changes on
+  the original object are going to be reflected on the cloned object, unlike
+  traditional cloning.
 
 
 ## Kudos
