@@ -2,6 +2,8 @@
 # proxy-clone [![build status](https://secure.travis-ci.org/juliangruber/proxy-clone.svg)](http://travis-ci.org/juliangruber/proxy-clone)
 
   Harmony proxies based deep clone, that's way more efficient than the traditional clone implementations, when dealing with big objects.
+  
+  __This is not a traditional clone(). Changes to the source object will be reflected in the clone, changes to the clone however won't modify the source.__
 
 ## Stability
 
