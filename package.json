@@ -3,12 +3,12 @@
   "version": "0.1.1",
   "repository": "juliangruber/proxy-clone",
   "dependencies": {
-    "debug": "~0.8.1"
+    "debug": "~2.3.3"
   },
   "devDependencies": {
-    "mocha": "~1.18.2",
-    "assert": "~1.1.1",
-    "benchmark": "~1.0.0",
-    "clone": "~0.1.18"
+    "mocha": "~3.2.0",
+    "assert": "~1.4.1",
+    "benchmark": "~2.1.2",
+    "clone": "~2.1.0"
   }
 }
