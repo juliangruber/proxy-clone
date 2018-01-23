@@ -1,21 +1,11 @@
 
 # proxy-clone [![build status](https://secure.travis-ci.org/juliangruber/proxy-clone.svg)](http://travis-ci.org/juliangruber/proxy-clone)
 
-  [ES6 Proxies](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) based deep clone, that's way more efficient than the traditional clone implementations, when dealing with big objects.
-  
-  __This is not a traditional clone(). Changes to the source object will be reflected in the clone, changes to the clone however won't modify the source.__
+  [ES6 Proxies](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) based deep clone, that's way more efficient than the traditional clone implementations when dealing with big objects.
 
   Requires node 6 or later.
-
-## Installation
-
-```bash
-$ npm install juliangruber/proxy-clone
-```
-
-## Stability
-
-  This module makes certain assumptions about what you do with the cloned object, and I only tested it with the operations one project required. If something behaves odly, open an issue and I'll look into it.
+  
+  Note: This is not a traditional clone(). Changes to the source object will be reflected in the clone, changes to the clone however won't modify the source.
 
 ## Performance
 
@@ -37,6 +27,16 @@ proxy-clone medium x 891,579 ops/sec ±1.49% (87 runs sampled)
 proxy-clone big x 814,796 ops/sec ±0.83% (92 runs sampled)
 proxy-clone gigantic x 792,461 ops/sec ±0.79% (89 runs sampled)
 ```
+
+## Installation
+
+```bash
+$ npm install juliangruber/proxy-clone
+```
+
+## Stability
+
+  This module makes certain assumptions about what you do with the cloned object, and I only tested it with the operations one project required. If something behaves odly, open an issue and I'll look into it.
 
 ## Example
 
