@@ -1,101 +1,115 @@
-var clone = require('./');
-var assert = require('assert/');
-var deepEqual = assert.deepEqual;
+const clone = require('./')
+const test = require('tap').test
 
-describe('clone(obj)', function(){
-  it('should clone', function(){
-    var obj = { foo: 'bar' };
-    var cloned = clone(obj);
-    assert(cloned);
-    deepEqual(cloned, obj);
-  });
+test('clone(obj)', t => {
+  t.test('should clone', t => {
+    const obj = { foo: 'bar' }
+    const cloned = clone(obj)
+    t.assert(cloned)
+    t.deepEqual(cloned, obj)
+    t.end()
+  })
 
-  describe('set', function(){
-    it('should add a value', function(){
-      var obj = { foo: 'bar' };
-      var cloned = clone(obj);
-      cloned.bar = 'baz';
-      deepEqual(cloned, { foo: 'bar', bar: 'baz' });
-      deepEqual(obj, { foo: 'bar' });
-    });
-  
-    it('should override a value', function(){
-      var obj = { foo: 'bar' };
-      var cloned = clone(obj);
-      cloned.foo = 'baz';
-      deepEqual(cloned, { foo: 'baz' });
-      deepEqual(obj, { foo: 'bar' });
-    });
-    
-    it('should add a previously deleted value', function(){
-      var obj = { foo: 'bar' };
-      var cloned = clone(obj);
-      delete cloned.foo;
-      cloned.foo = 'baz';
-      deepEqual(cloned, { foo: 'baz' });
-      deepEqual(obj, { foo: 'bar' });
-    });
+  t.test('set', t => {
+    t.test('should add a value', t => {
+      const obj = { foo: 'bar' }
+      const cloned = clone(obj)
+      cloned.bar = 'baz'
+      t.deepEqual(cloned, { foo: 'bar', bar: 'baz' })
+      t.deepEqual(obj, { foo: 'bar' })
+      t.end()
+    })
 
-    it('should add a nested value', function(){
-      var obj = { foo: { bar: 'baz' } };
-      var cloned = clone(obj);
-      cloned.foo.beep = 'boop';
-      deepEqual(cloned, { foo: { bar: 'baz', beep: 'boop' } });
-      deepEqual(obj, { foo: { bar: 'baz' } });
-    });
+    t.test('should override a value', t => {
+      const obj = { foo: 'bar' }
+      const cloned = clone(obj)
+      cloned.foo = 'baz'
+      t.deepEqual(cloned, { foo: 'baz' })
+      t.deepEqual(obj, { foo: 'bar' })
+      t.end()
+    })
 
-    it('should override a nested value', function(){
-      var obj = { foo: { bar: 'baz' } };
-      var cloned = clone(obj);
-      cloned.foo.bar = 'beep';
-      deepEqual(cloned, { foo: { bar: 'beep' } });
-      deepEqual(obj, { foo: { bar: 'baz' } });
-    });
+    t.test('should add a previously deleted value', t => {
+      const obj = { foo: 'bar' }
+      const cloned = clone(obj)
+      delete cloned.foo
+      cloned.foo = 'baz'
+      t.deepEqual(cloned, { foo: 'baz' })
+      t.deepEqual(obj, { foo: 'bar' })
+      t.end()
+    })
 
-    it('should not clone nulls', function(){
-      var obj = { foo: null };
-      var cloned = clone(obj);
-      deepEqual(cloned, { foo: null });
-    });
-  });
+    t.test('should add a nested value', t => {
+      const obj = { foo: { bar: 'baz' } }
+      const cloned = clone(obj)
+      cloned.foo.beep = 'boop'
+      t.deepEqual(cloned, { foo: { bar: 'baz', beep: 'boop' } })
+      t.deepEqual(obj, { foo: { bar: 'baz' } })
+      t.end()
+    })
 
-  describe('delete', function(){
-    it('should delete a value', function(){
-      var obj = { foo: 'bar' };
-      var cloned = clone(obj);
-      delete cloned.foo;
-      delete cloned.unknown;
-      deepEqual(cloned, {});
-      deepEqual(obj, { foo: 'bar' });
-    });
+    t.test('should override a nested value', t => {
+      const obj = { foo: { bar: 'baz' } }
+      const cloned = clone(obj)
+      cloned.foo.bar = 'beep'
+      t.deepEqual(cloned, { foo: { bar: 'beep' } })
+      t.deepEqual(obj, { foo: { bar: 'baz' } })
+      t.end()
+    })
 
-    it('should delete a nested value', function(){
-      var obj = { foo: { bar: 'baz' } };
-      var cloned = clone(obj);
-      delete cloned.foo.bar;
-      delete cloned.foo.unknown;
-      deepEqual(cloned, { foo: {} });
-      deepEqual(obj, { foo: { bar: 'baz' } });
-    });
-  });
+    t.test('should not clone nulls', t => {
+      const obj = { foo: null }
+      const cloned = clone(obj)
+      t.deepEqual(cloned, { foo: null })
+      t.end()
+    })
 
-  describe('get', function(){
-    it('should bind functions', function(){
-      function Obj(){}
-      Obj.prototype.fn = function(){ assert(this instanceof Obj) }
-      var obj = new Obj;
-      var cloned = clone(obj);
-      cloned.fn();
-    });
+    t.end()
+  })
 
-    it('should inherit', function(){
-      var d = new Date;
-      var c = clone(d);
-      deepEqual(
-        d.toString(),
-        c.toString()
-      );
-    });
-  });
-});
+  t.test('delete', t => {
+    t.test('should delete a value', t => {
+      const obj = { foo: 'bar' }
+      const cloned = clone(obj)
+      delete cloned.foo
+      delete cloned.unknown
+      t.deepEqual(cloned, {})
+      t.deepEqual(obj, { foo: 'bar' })
+      t.end()
+    })
 
+    t.test('should delete a nested value', t => {
+      const obj = { foo: { bar: 'baz' } }
+      const cloned = clone(obj)
+      delete cloned.foo.bar
+      delete cloned.foo.unknown
+      t.deepEqual(cloned, { foo: {} })
+      t.deepEqual(obj, { foo: { bar: 'baz' } })
+      t.end()
+    })
+    t.end()
+  })
+
+  t.test('get', t => {
+    t.test('should bind functions', t => {
+      function Obj () {}
+      Obj.prototype.fn = function () {
+        t.assert(this instanceof Obj)
+      }
+      const obj = new Obj()
+      const cloned = clone(obj)
+      cloned.fn()
+      t.end()
+    })
+
+    t.test('should inherit', t => {
+      const d = new Date()
+      const c = clone(d)
+      t.deepEqual(d.toString(), c.toString())
+      t.end()
+    })
+    t.end()
+  })
+
+  t.end()
+})

@@ -2,13 +2,18 @@
   "name": "proxy-clone",
   "version": "0.1.1",
   "repository": "juliangruber/proxy-clone",
+  "scripts": {
+    "bench": "node support/bench",
+    "test": "prettier-standard '**/*.js' && standard && tap test.js"
+  },
   "dependencies": {
     "debug": "~0.8.1"
   },
   "devDependencies": {
-    "mocha": "~1.18.2",
-    "assert": "~1.1.1",
     "benchmark": "~1.0.0",
-    "clone": "~0.1.18"
+    "clone": "~0.1.18",
+    "prettier-standard": "^8.0.0",
+    "standard": "^10.0.3",
+    "tap": "^11.0.1"
   }
 }

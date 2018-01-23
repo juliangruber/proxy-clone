@@ -1,21 +1,22 @@
+'use strict'
 
 /**
  * Module dependencies.
  */
 
-var debug = require('debug')('proxy-clone');
+const debug = require('debug')('proxy-clone')
 
 /**
- * Expose `proxyClone`.
+ * Unique utility.
  */
 
-module.exports = proxyClone;
+const unique = (el, i, arr) => arr.indexOf(el) === i
 
 /**
- * hasOwnProperty reference.
+ * Object check.
  */
 
-var hasOwnProperty = ({}).hasOwnProperty;
+const isObject = obj => typeof obj === 'object' && obj !== null
 
 /**
  * Clone `obj`.
@@ -24,113 +25,97 @@ var hasOwnProperty = ({}).hasOwnProperty;
  * @return {Object}
  */
 
-function proxyClone(obj){
-  var override = Object.create(null);
-  var deleted = Object.create(null);
+const proxyClone = obj => {
+  const override = Object.create(null)
+  const deleted = Object.create(null)
 
-  function get(name){
-    var value;
-    if (!deleted[name]) value = override[name] || obj[name];
+  const get = name => {
+    let value
+    if (!deleted[name]) value = override[name] || obj[name]
     if (isObject(value)) {
-      value = proxyClone(value);
-      override[name] = value;
+      value = proxyClone(value)
+      override[name] = value
     }
-    if ('function' == typeof value) {
-      value = value.bind(obj);
+    if (typeof value === 'function') {
+      value = value.bind(obj)
     }
-    return value;
+    return value
   }
 
-  return Proxy.create({
-    getOwnPropertyDescriptor: function(name){
-      var desc;
+  return new Proxy(Object.prototype, {
+    getPrototypeOf: () => Object.getPrototypeOf(obj),
+    /* setPrototypeOf: function () {
+      console.log('setPrototypeOf')
+    },
+    isExtensible: function () {
+      console.log('isExtensible')
+    },
+    preventExtensions: function () {
+      console.log('preventExtensions')
+    }, */
+    getOwnPropertyDescriptor: (target, name) => {
+      let desc
       if (!deleted[name]) {
-        desc = Object.getOwnPropertyDescriptor(override, name)
-          || Object.getOwnPropertyDescriptor(obj, name);
+        desc =
+          Object.getOwnPropertyDescriptor(override, name) ||
+          Object.getOwnPropertyDescriptor(obj, name)
       }
-      if (desc) desc.configurable = true;
-      debug('getOwnPropertyDescriptor %s = %j', name, desc);
-      return desc;
+      if (desc) desc.configurable = true
+      debug('getOwnPropertyDescriptor %s = %j', name, desc)
+      return desc
     },
-    getPropertyDescriptor: function(name){
-      debug('getPropertyDescriptor %s', name);
-      return {
-        get: function(){
-          var value = get(name);
-          debug('get %s = %j', name, value);
-          return value;
-        },
-        set: function(val){
-          debug('set %s = %j', name, val);
-          delete deleted[name];
-          return override[name] = val;
-        }
-      }
+    /* defineProperty: function () {
+      debug('defineProperty')
+    }, */
+    has: (_, name) => {
+      const has = !deleted[name] && (name in override || name in obj)
+      debug('has %s = %s', name, has)
+      return has
     },
-    getOwnPropertyNames: function(){
-      var names = Object.getOwnPropertyNames(obj)
-        .concat(Object.getOwnPropertyNames(override))
-        .filter(unique)
-        .filter(function(key){
-          return !deleted[key];
-        });
-      debug('getOwnPropertyNames %j', names);
-      return names;
+    get: (receiver, name) => {
+      const value = get(name)
+      debug('get %s = %j', name, value)
+      return value
     },
-    delete: function(name){
-      debug('delete %s', name);
-      deleted[name] = true;
-      delete override[name];
+    set: (_, name, val) => {
+      delete deleted[name]
+      override[name] = val
+      debug('set %s = %j', name, val)
+      return true
     },
-    has: function(name){
-      var has = !deleted[name] && (name in override || name in obj);
-      debug('has %s = %s', name, has);
-      return has;
+    deleteProperty: (_, name) => {
+      debug('deleteProperty %s', name)
+      deleted[name] = true
+      delete override[name]
     },
-    hasOwn: function(name){
-      var has = !deleted[name]
-        && (hasOwnProperty.call(override, name)
-        || hasOwnProperty.call(obj, name));
-      debug('hasOwn %s = %s', name, has);
-      return has;
-    },
-    get: function(receiver, name){
-      var value = get(name);
-      debug('get %s = %j', name, value);
-      return value;
-    },
-    set: function(receiver, name, val) {
-      delete deleted[name];
-      override[name] = val;
-      debug('set %s = %j', name, val);
-      return true;
-    },
-    enumerate: function(){
-      var keys = Object.keys(obj)
+    ownKeys: () => {
+      const keys = Object.keys(obj)
         .concat(Object.keys(override))
         .filter(unique)
-        .filter(function(key){
-          return !deleted[key];
-        });
-      debug('enumerate %j', keys);
-      return keys;
+        .filter(key => !deleted[key])
+      debug('ownKeys %j', keys)
+      return keys
     }
-  }, Object.prototype);
-};
-
-/**
- * Unique utility.
- */
-
-function unique(el, i, arr){
-  return arr.indexOf(el) == i;
+    /* apply: function () {
+      console.log('apply')
+    },
+    construct: function () {
+      console.log('construct')
+    },
+    enumerate: function () {
+      console.log('enumerate')
+    },
+    isExtensible: function () {
+      console.log('isExtensible')
+    },
+    preventExtensions: function () {
+      console.log('preventExtensions')
+    } */
+  })
 }
 
 /**
- * Object check.
+ * Expose `proxyClone`.
  */
 
-function isObject(obj){
-  return 'object' == typeof obj && obj != null;
-}
-
+module.exports = proxyClone

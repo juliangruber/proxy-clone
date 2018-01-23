@@ -1,7 +1,7 @@
 
 # proxy-clone [![build status](https://secure.travis-ci.org/juliangruber/proxy-clone.svg)](http://travis-ci.org/juliangruber/proxy-clone)
 
-  Harmony proxies based deep clone, that's way more efficient than the traditional clone implementations, when dealing with big objects.
+  [ES6 Proxies](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) based deep clone, that's way more efficient than the traditional clone implementations, when dealing with big objects.
   
   __This is not a traditional clone(). Changes to the source object will be reflected in the clone, changes to the clone however won't modify the source.__
 
@@ -11,23 +11,23 @@
 
 ## Performance
 
-  Depending on the object size, `proxy-clone` can be wayyyyy faster than naive JSON clone or the [clone](https://npmjs.org/clone) module from npm. The most important thing to note is that clone speed is constant, however using the cloned object is slightly slower.
+  Depending on the object size, `proxy-clone` can be a lot faster than naive JSON clone or the [clone](https://npmjs.org/clone) module from npm. The most important thing to note is that clone speed is constant, however using the cloned object is slightly slower.
 
 ```
-JSON small x 40,755 ops/sec ±13.60% (65 runs sampled)
-JSON medium x 6,318 ops/sec ±3.52% (84 runs sampled)
-JSON big x 526 ops/sec ±9.41% (75 runs sampled)
-JSON gigantic x 27.20 ops/sec ±15.18% (40 runs sampled)
+JSON small x 60,036 ops/sec ±1.09% (92 runs sampled)
+JSON medium x 5,919 ops/sec ±0.86% (91 runs sampled)
+JSON big x 526 ops/sec ±1.20% (89 runs sampled)
+JSON gigantic x 39.50 ops/sec ±1.83% (54 runs sampled)
 
-clone small x 13,755 ops/sec ±12.13% (66 runs sampled)
-clone medium x 1,084 ops/sec ±12.39% (59 runs sampled)
-clone big x 37.76 ops/sec ±12.18% (40 runs sampled)
-clone gigantic x 0.68 ops/sec ±8.74% (6 runs sampled)
+clone small x 50,288 ops/sec ±1.20% (91 runs sampled)
+clone medium x 4,381 ops/sec ±1.03% (90 runs sampled)
+clone big x 230 ops/sec ±0.85% (85 runs sampled)
+clone gigantic x 4.14 ops/sec ±1.54% (15 runs sampled)
 
-proxy-clone small x 298,286 ops/sec ±2.99% (79 runs sampled)
-proxy-clone medium x 269,721 ops/sec ±5.39% (79 runs sampled)
-proxy-clone big x 255,918 ops/sec ±7.33% (72 runs sampled)
-proxy-clone gigantic x 259,387 ops/sec ±4.84% (69 runs sampled)
+proxy-clone small x 842,147 ops/sec ±1.18% (93 runs sampled)
+proxy-clone medium x 891,579 ops/sec ±1.49% (87 runs sampled)
+proxy-clone big x 814,796 ops/sec ±0.83% (92 runs sampled)
+proxy-clone gigantic x 792,461 ops/sec ±0.79% (89 runs sampled)
 ```
 
 ## Example
@@ -48,12 +48,6 @@ var cloned = clone(obj);
 assert.deepEqual(cloned, obj);
 ```
 
-  Remember that you need to run node `0.11.x` and pass the `--harmony` flag:
-
-```bash
-$ node --harmony my-app.js
-```
-
 ## Installation
 
 ```bash
@@ -71,7 +65,7 @@ $ npm install proxy-clone
   Traditional clone implementations recursively iterate over the object and
   copy all the properties to a new object, which can be slow. This module
   instead creates an ES6
-  [Proxy](http://wiki.ecmascript.org/doku.php?id=harmony:proxies). When you
+  [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). When you
   change a property on the proxy, it adds it to an internal change log. When
   you read from the proxy, it first checks for overrides, otherwise returns
   the original value from the object.
