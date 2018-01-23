@@ -7,6 +7,12 @@
 
   Requires node 6 or later.
 
+## Installation
+
+```bash
+$ npm install juliangruber/proxy-clone
+```
+
 ## Stability
 
   This module makes certain assumptions about what you do with the cloned object, and I only tested it with the operations one project required. If something behaves odly, open an issue and I'll look into it.
@@ -48,12 +54,6 @@ var obj = {
 
 var cloned = clone(obj);
 assert.deepEqual(cloned, obj);
-```
-
-## Installation
-
-```bash
-$ npm install proxy-clone
 ```
 
 ## API
