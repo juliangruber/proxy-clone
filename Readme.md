@@ -5,6 +5,8 @@
   
   __This is not a traditional clone(). Changes to the source object will be reflected in the clone, changes to the clone however won't modify the source.__
 
+  Requires node 6 or later.
+
 ## Stability
 
   This module makes certain assumptions about what you do with the cloned object, and I only tested it with the operations one project required. If something behaves odly, open an issue and I'll look into it.
