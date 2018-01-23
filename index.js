@@ -44,15 +44,15 @@ const proxyClone = obj => {
 
   return new Proxy(Object.prototype, {
     getPrototypeOf: () => Object.getPrototypeOf(obj),
-    /* setPrototypeOf: function () {
-      console.log('setPrototypeOf')
+    setPrototypeOf: () => {
+      throw new Error('Not yet implemented: setPrototypeOf')
     },
-    isExtensible: function () {
-      console.log('isExtensible')
+    isExtensible: () => {
+      throw new Error('Not yet implemented: isExtensible')
     },
-    preventExtensions: function () {
-      console.log('preventExtensions')
-    }, */
+    preventExtensions: () => {
+      throw new Error('Not yet implemented: preventExtensions')
+    },
     getOwnPropertyDescriptor: (target, name) => {
       let desc
       if (!deleted[name]) {
@@ -64,9 +64,9 @@ const proxyClone = obj => {
       debug('getOwnPropertyDescriptor %s = %j', name, desc)
       return desc
     },
-    /* defineProperty: function () {
-      debug('defineProperty')
-    }, */
+    defineProperty: () => {
+      throw new Error('Not yet implemented: defineProperty')
+    },
     has: (_, name) => {
       const has = !deleted[name] && (name in override || name in obj)
       debug('has %s = %s', name, has)
@@ -95,22 +95,16 @@ const proxyClone = obj => {
         .filter(key => !deleted[key])
       debug('ownKeys %j', keys)
       return keys
+    },
+    apply: () => {
+      throw new Error('Not yet implemented: apply')
+    },
+    construct: () => {
+      throw new Error('Not yet implemented: construct')
+    },
+    enumerate: () => {
+      throw new Error('Not yet implemented: enumerate')
     }
-    /* apply: function () {
-      console.log('apply')
-    },
-    construct: function () {
-      console.log('construct')
-    },
-    enumerate: function () {
-      console.log('enumerate')
-    },
-    isExtensible: function () {
-      console.log('isExtensible')
-    },
-    preventExtensions: function () {
-      console.log('preventExtensions')
-    } */
   })
 }
 
