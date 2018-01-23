@@ -1,4 +1,4 @@
-'us estrict'
+'use strict'
 
 const Benchmark = require('benchmark')
 const proxyClone = require('..')
