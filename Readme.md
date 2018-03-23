@@ -31,7 +31,7 @@ proxy-clone gigantic x 792,461 ops/sec ±0.79% (89 runs sampled)
 ## Installation
 
 ```bash
-$ npm install juliangruber/proxy-clone
+$ npm install proxy-clone
 ```
 
 ## Stability
