@@ -7,7 +7,7 @@
     "test": "prettier-standard '**/*.js' && standard && tap test.js"
   },
   "dependencies": {
-    "debug": "~2.6.9"
+    "debug": "^4.1.1"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
