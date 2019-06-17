@@ -1,6 +1,6 @@
 {
   "name": "proxy-clone",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": "juliangruber/proxy-clone",
   "scripts": {
     "bench": "node support/bench",
