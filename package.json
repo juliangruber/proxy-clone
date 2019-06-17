@@ -10,10 +10,10 @@
     "debug": "^4.1.1"
   },
   "devDependencies": {
-    "benchmark": "~1.0.0",
-    "clone": "~0.1.18",
-    "prettier-standard": "^8.0.0",
-    "standard": "^10.0.3",
-    "tap": "^11.0.1"
+    "benchmark": "^2.1.4",
+    "clone": "^2.1.2",
+    "prettier-standard": "^9.1.1",
+    "standard": "^12.0.1",
+    "tap": "^14.2.3"
   }
 }
