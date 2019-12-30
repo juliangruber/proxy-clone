@@ -4,7 +4,8 @@
   "repository": "juliangruber/proxy-clone",
   "scripts": {
     "bench": "node support/bench",
-    "test": "prettier-standard '**/*.js' && standard && tap test.js"
+    "test": "prettier-standard '**/*.js' && standard && tap test.js",
+    "release": "np"
   },
   "dependencies": {
     "debug": "^4.1.1"
@@ -12,6 +13,7 @@
   "devDependencies": {
     "benchmark": "^2.1.4",
     "clone": "^2.1.2",
+    "np": "^5.2.1",
     "prettier-standard": "^9.1.1",
     "standard": "^13.0.0",
     "tap": "^14.4.1"
